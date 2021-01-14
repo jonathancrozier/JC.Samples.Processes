@@ -12,22 +12,44 @@ namespace JC.Samples.Processes.Helpers
         #region Methods
 
         /// <summary>
+        /// Creates a process that runs in the background and redirects command line output.
+        /// </summary>
+        /// <param name="processFilePath">The file path for the process to start</param>
+        /// <param name="processArguments">The command line arguments to use</param>
+        /// <returns>The created background process</returns>
+        public static Process CreateBackgroundProcess(string processFilePath, string processArguments)
+        {
+            Log.Information("Creating background process '{0}' with arguments '{1}'", processFilePath, processArguments);
+
+            var process                              = new Process();
+            process.EnableRaisingEvents              = true;
+            process.StartInfo.UseShellExecute        = false;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.FileName               = processFilePath;
+            process.StartInfo.CreateNoWindow         = true;
+            process.StartInfo.Arguments              = processArguments;
+            
+            Log.Information("Background process '{0}' with arguments '{1}' created", processFilePath, processArguments);
+
+            return process;
+        }
+
+        /// <summary>
         /// Creates a process that runs in the background with no UI.
         /// </summary>
-        /// <param name="processName">The name of the process to start</param>
+        /// <param name="processFilePath">The file path for the process to start</param>
         /// <param name="processArguments">The command-line arguments to use</param>
         /// <returns>The created hidden process</returns>
-        public static Process CreateHiddenProcess(string processName, string processArguments)
+        public static Process CreateHiddenProcess(string processFilePath, string processArguments)
         {
-            Log.Information("Creating hidden process '{0}' with arguments '{1}'", processName, processArguments);
+            Log.Information("Creating hidden process '{0}' with arguments '{1}'", processFilePath, processArguments);
 
-            var process                      = new Process();
-            process.StartInfo.WindowStyle    = ProcessWindowStyle.Hidden;
-            process.StartInfo.FileName       = processName;
-            process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.Arguments      = processArguments;
+            var process                   = new Process();
+            process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            process.StartInfo.FileName    = processFilePath;
+            process.StartInfo.Arguments   = processArguments;
 
-            Log.Information("Hidden process '{0}' with arguments '{1}' created", processName, processArguments);
+            Log.Information("Hidden process '{0}' with arguments '{1}' created", processFilePath, processArguments);
 
             return process;
         }
