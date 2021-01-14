@@ -86,7 +86,7 @@ namespace JC.Samples.Processes.Helpers
                         process.WaitForExit(timeout);
 
                         if (process.HasExited) Log.Information("Killed existing process named '{0}'", processName);
-                        else Log.Information("Waited for 30 seconds, but couldn't kill process named '{0}'", processName);
+                        else Log.Warning("Waited for 30 seconds, but couldn't kill process named '{0}'", processName);
                     }
                 }
             }
